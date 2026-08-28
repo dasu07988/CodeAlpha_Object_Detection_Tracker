@@ -3,7 +3,9 @@ from ultralytics import YOLO
 import cv2
 
 model = YOLO("yolov8n.pt")
+
 prev_time = 0
+
 cap = cv2.VideoCapture(0)
 
 while True:
@@ -18,10 +20,14 @@ while True:
         persist=True
     )
 
+    object_count = len(results[0].boxes)
+
     annotated_frame = results[0].plot()
+
     current_time = time.time()
 
     fps = 1 / (current_time - prev_time) if current_time != prev_time else 0
+
     prev_time = current_time
 
     cv2.putText(
@@ -34,12 +40,32 @@ while True:
         2
     )
 
+    cv2.putText(
+        annotated_frame,
+        f"Objects: {object_count}",
+        (20, 80),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        1,
+        (255, 0, 0),
+        2
+    )
+
     cv2.imshow(
         "CodeAlpha Object Detection & Tracking",
         annotated_frame
     )
 
-    if cv2.waitKey(1) & 0xFF == ord("q"):
+    key = cv2.waitKey(1)
+
+    if key == ord("s"):
+
+        filename = f"screenshots/detection_{int(time.time())}.jpg"
+
+        cv2.imwrite(filename, annotated_frame)
+
+        print(f"Saved: {filename}")
+
+    if key == ord("q"):
         break
 
 cap.release()
