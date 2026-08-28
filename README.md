@@ -57,7 +57,7 @@ Displays the number of objects detected in the current frame.
 
 ### 📸 Screenshot Capture
 
-Press **S** to save the current annotated frame to the `screenshots/` directory.
+![Object Detection and Tracking](screenshots/Screenshot 2026-08-28 134229.png)
 
 ### ⌨️ Keyboard Controls
 
